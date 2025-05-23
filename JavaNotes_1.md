@@ -17,7 +17,7 @@ A `List`, `Set` és `Map` a Java három leggyakrabban használt **kollekció tí
 * Bevásárlólista, keresési előzmények, naplófájl.
 
 ### **📌 Példa:**
-
+```java
 import java.util.ArrayList;  
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class ArrayListPelda {
         }  
     }  
 }
-
+```
 ---
 
 ## **🌳 2\. `Set` – Nincs sorrend, nincs ismétlődés**
@@ -50,7 +50,7 @@ public class ArrayListPelda {
 * Felhasználónevek, e-mail címek, címkék (tag-ek) tárolására.
 
 ### **📌 Példa:**
-
+```java
 import java.util.HashSet;  
 import java.util.Set;
 
@@ -67,7 +67,7 @@ public class HasSetPelda {
         }  
     }  
 }
-
+```
 ---
 
 ## **🗺️ 3\. `Map` – Kulcs-érték párok (mint egy szótár)**
@@ -85,7 +85,7 @@ public class HasSetPelda {
 * Felhasználónév–jelszó párok, termék–ár lista, név–telefonszám tárolása.
 
 ### **📌 Példa:**
-
+```java
 import java.util.HashMap;  
 import java.util.Map;
 
@@ -98,7 +98,7 @@ public class HasMapPelda {
         System.out.println("Anna jegye: " \+ jegyek.get("Anna"));  
     }  
 }
-
+```
 ---
 
 ## **🧾 Összefoglaló táblázat**
@@ -126,7 +126,7 @@ public class HasMapPelda {
 ## **4\. Interface szerepe**
 
 ### **Példa: `Animal` interfész és két megvalósítása**
-
+```java
 interface Animal {  
     void makeSound();  
 }
@@ -152,7 +152,7 @@ public class InterfacePelda {
         a2.makeSound();  
     }  
 }
-
+```
 ### **Magyarázat:**
 
 * Az `interface` definiálja, **mit tud egy osztály**, de nem **hogyan**.
@@ -164,7 +164,7 @@ public class InterfacePelda {
 ---
 
 ## **5\. `Object.equals()` és keresés adattagokra**
-
+```java
 class Ember {  
     String nev;  
     int kor;
@@ -188,7 +188,8 @@ class Ember {
         return nev \+ " (" \+ kor \+ ")";  
     }  
 }
-
+```
+```java
 import java.util.ArrayList;  
 import java.util.List;
 
@@ -202,6 +203,7 @@ public class EmberKereses {
         System.out.println("Tartalmazza?: " \+ lista.contains(keresett));  
     }  
 }
+```
 
 ### **Magyarázat:**
 
@@ -214,7 +216,7 @@ public class EmberKereses {
 ## **6\. Fájl írás/olvasás**
 
 ### **Fájlba írás**
-
+```java
 import java.io.FileWriter;  
 import java.io.IOException;
 
@@ -227,9 +229,9 @@ public class FileIras {
         }  
     }  
 }
-
+```
 ### **Fájl olvasás**
-
+```java
 import java.io.BufferedReader;  
 import java.io.FileReader;  
 import java.io.IOException;
@@ -246,7 +248,7 @@ public class FileOlvasas {
         }  
     }  
 }
-
+```
 ### **Magyarázat:**
 
 * A fájlkezelés try-with-resources használatával **automatikus zárást** biztosít.
