@@ -270,3 +270,131 @@ for (Map.Entry<String, List<Product>> entry : extremeList.entrySet()) {
 
 ```
 ---
+Nagyon jó, ez egy haladóbb, de **nagyon hasznos** Java minta! Lépésről lépésre elmagyarázom **mit csinál**, **hogyan működik**, és **mikor érdemes használni**:
+
+---
+
+## 💡 A teljes sor:
+
+```java
+Iterator<Map.Entry<String, Integer>> it = oldalszamok.entrySet().iterator();
+```
+
+Ez a sor azt készíti elő, hogy egy `Map` **kulcs–érték párjain** végig tudjunk lépkedni egy **`Iterator`** segítségével.
+
+---
+
+## 🔍 Tördeljük részekre és értsük meg:
+
+### 📌 1. `oldalszamok`
+
+Ez egy `Map<String, Integer>` típusú változó. Például:
+
+```java
+Map<String, Integer> oldalszamok = new HashMap<>();
+oldalszamok.put("Könyv1", 250);
+oldalszamok.put("Könyv2", 320);
+```
+
+Ez a map például könyvcímeket (kulcs: `String`) és hozzájuk tartozó oldalszámokat (érték: `Integer`) tárol.
+
+---
+
+### 📌 2. `oldalszamok.entrySet()`
+
+Ez a metódus:
+
+* Visszaad egy **`Set`-et**, amely az összes `Map.Entry<K, V>` elemet tartalmazza.
+* Minden `Map.Entry<String, Integer>` egy darab **kulcs–érték párt** képvisel.
+
+Példa:
+
+```java
+Set<Map.Entry<String, Integer>> entries = oldalszamok.entrySet();
+```
+
+Most már van egy `Set`, ami így néz ki:
+
+```
+[
+  ("Könyv1", 250),
+  ("Könyv2", 320)
+]
+```
+
+---
+
+### 📌 3. `.iterator()`
+
+Ez a `Set` típushoz tartozó metódus:
+
+* Visszaad egy `Iterator`-t, amivel **lépésenként végig tudsz menni az elemein**.
+* Úgy működik, mint egy kurzor: **következő elem**, **van-e még elem**, **aktuális elem törlése**.
+
+---
+
+### 📌 4. `Iterator<Map.Entry<String, Integer>>`
+
+Ez az `Iterator` típusa:
+
+* Az iterátor **`Map.Entry` típusú elemeket** fog visszaadni.
+* Minden elem egy `kulcs-érték pár`.
+
+---
+
+## ✅ Mire jó ez az egész?
+
+Ez az eljárás akkor hasznos, ha **nem csak olvasni**, hanem **manipulálni, törölni** is szeretnéd a `Map` egyes elemeit **ciklus közben**.
+
+### ❗Miért nem elég a `for-each`?
+
+Ez **nem működik**:
+
+```java
+for (Map.Entry<String, Integer> entry : oldalszamok.entrySet()) {
+    if (entry.getValue() < 300) {
+        oldalszamok.remove(entry.getKey()); // 🛑 HIBA - ConcurrentModificationException
+    }
+}
+```
+
+❗A `Map` nem engedi, hogy **ciklus közben változtasd meg** magát – hacsak nem `Iterator`-t használsz.
+
+---
+
+## ✅ Teljes, működő példa:
+
+```java
+Map<String, Integer> oldalszamok = new HashMap<>();
+oldalszamok.put("Könyv1", 250);
+oldalszamok.put("Könyv2", 320);
+oldalszamok.put("Könyv3", 100);
+
+Iterator<Map.Entry<String, Integer>> it = oldalszamok.entrySet().iterator();
+
+while (it.hasNext()) {
+    Map.Entry<String, Integer> entry = it.next();
+    if (entry.getValue() < 300) {
+        it.remove(); // csak így lehet biztonságosan törölni
+    }
+}
+
+System.out.println(oldalszamok); // csak a 320 oldalas könyv marad
+```
+
+---
+
+## 📌 Összefoglalás
+
+| Kifejezés                              | Mit csinál                                    |
+| -------------------------------------- | --------------------------------------------- |
+| `entrySet()`                           | Kulcs–érték párok halmaza (`Set<Entry<K,V>>`) |
+| `iterator()`                           | Létrehoz egy kurzort az elemek bejárásához    |
+| `Iterator<Map.Entry<String, Integer>>` | A típus, amin lépkedünk (kulcs–érték párok)   |
+| `it.next()`                            | Következő `Map.Entry` visszaadása             |
+| `it.remove()`                          | Biztonságos törlés a `Map`-ből ciklus közben  |
+
+---
+
+Ha szeretnéd, mutatok példát arra is, hogyan lehet így **statistikát számolni**, vagy **feltételek alapján szűrni** a map tartalmát. Szívesen segítek!
+
