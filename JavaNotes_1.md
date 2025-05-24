@@ -257,4 +257,16 @@ public class FileOlvasas {
 
 * `BufferedReader`: soronkénti olvasásra.
 
+
+### **EntrySet használata **
+
+```java
+for (Map.Entry<String, List<Product>> entry : extremeList.entrySet()) {
+    String kulcs = entry.getKey();       // Pl. "elektronika"
+    List<Product> lista = entry.getValue(); // Pl. [Product1, Product2]
+
+    // Ezen a ponton dolgozhatsz a kulccsal ÉS a hozzá tartozó értékkel
+}
+
+```
 ---
