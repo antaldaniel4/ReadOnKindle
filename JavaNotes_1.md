@@ -396,5 +396,58 @@ System.out.println(oldalszamok); // csak a 320 oldalas könyv marad
 
 ---
 
-Ha szeretnéd, mutatok példát arra is, hogyan lehet így **statistikát számolni**, vagy **feltételek alapján szűrni** a map tartalmát. Szívesen segítek!
+```java
+public class Bolt {
+    private final Map<String, Integer> keszlet = new HashMap<>();
+    private final Map<String, Integer> arak = new HashMap<>();
+
+    public void szallitmany(String termek, int mennyiseg) {
+        keszlet.put(termek, keszlet.getOrDefault(termek, 0) + mennyiseg);
+        arak.putIfAbsent(termek, 1000); // csak akkor állítja be, ha új
+    }
+
+    public void aratBeallit(String termek, int minAr, int ajanlottAr, boolean nagyker) {
+        if (!arak.containsKey(termek)) return;
+        arak.put(termek, nagyker ? minAr : ajanlottAr);
+    }
+
+    public String[] termekek(boolean arSzerint) {
+        List<String> termekLista = new ArrayList<>(keszlet.keySet());
+        if (arSzerint) {
+            termekLista.sort(Comparator.comparingInt(arak::get));
+        } else {
+            Collections.sort(termekLista);
+        }
+        return termekLista.toArray(new String[0]);
+    }
+
+    public boolean vasarol(Vasarlo vasarlo, Map<String, Integer> lista) {
+        int osszesen = 0;
+        Map<String, Integer> valosag = new HashMap<>();
+
+        for (Map.Entry<String, Integer> tetel : lista.entrySet()) {
+            String termek = tetel.getKey();
+            int kivant = tetel.getValue();
+            int elerheto = keszlet.getOrDefault(termek, 0);
+            int mennyiseg = Math.min(kivant, elerheto);
+            if (mennyiseg > 0) {
+                valosag.put(termek, mennyiseg);
+                osszesen += mennyiseg * arak.get(termek);
+            }
+        }
+
+        if (vasarlo.getPenz() < osszesen) {
+            return false;
+        }
+
+        vasarlo.fizet(osszesen);
+        for (Map.Entry<String, Integer> tetel : valosag.entrySet()) {
+            String termek = tetel.getKey();
+            keszlet.put(termek, keszlet.get(termek) - tetel.getValue());
+        }
+
+        return valosag.keySet().containsAll(lista.keySet());
+    }
+}
+```
 
